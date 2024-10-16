@@ -1,4 +1,4 @@
-# Infinite
+# Infinitium
 Integrative Nucleic Acid Frameworks: Insights from Algorithms, Data, and Theories
 
 # Goals
