@@ -54,4 +54,4 @@ class NodeEmbedder(nn.Module):
         # timesteps are between 0 and 1. Convert to integers.
         input_feats.append(self.embed_t(timesteps, mask))
         
-        return self.linear(torch.cat(input_feats, dim=-1))
+        return self.linear(torch.cat(input_feats, dim=-1).float())

@@ -33,5 +33,5 @@ def inspect_rnapair_dataset(folder_path, samples_per_seq=1):
         print()
 
 if __name__ == "__main__":
-    folder = r"C:\Users\nikhi\Desktop\RNA\RNAbpFlow\complex\processed\rna3db-mmcifs\check_set\train"  # <-- Replace with your folder path
+    folder = r"/scratch/xqiugroup/test/RNAbpFlow-test/check_set/train"  # <-- Replace with your folder path
     inspect_rnapair_dataset(folder_path=folder, samples_per_seq=1)

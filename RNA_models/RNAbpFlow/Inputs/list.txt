@@ -1,2 +1,2 @@
-2oiu_P 5
-8tux_R 10
+2oiu_P 2
+8tux_R 2

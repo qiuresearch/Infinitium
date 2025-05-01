@@ -14,6 +14,7 @@ import tree
 # Distance from one P to next P
 # This value was taken from observation, but it has more diversity.
 p_p = 6.137854156947696  # std == 1.2751798156277778
+c4_c4 = 6.12
 NUM_NA_RESIDUE_ATOMS = 23
 # Format: The list for each AA type contains chi1, chi2, chi3, chi4 in
 # this order (or a relevant subset from chi1 onwards). ALA and GLY don't have

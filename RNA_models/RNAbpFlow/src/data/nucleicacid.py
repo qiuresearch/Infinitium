@@ -224,12 +224,15 @@ def to_pdb(nuclacid: NucleicAcid) -> str:
     residue_index = nuclacid.residue_index.astype(np.int32)
     b_factors = nuclacid.b_factors
 
+   #print("came into nucleicacid",aatype)
+    
     if np.any(aatype > base_constants.restype_num):
         raise ValueError("Invalid aatypes.")
 
     atom_index = 1
     chain_id = "A"
     # Add all atom sites.
+    
     for i in range(aatype.shape[0]):
         res_name_3 = res_1to3(aatype[i])
         for atom_name, pos, mask, b_factor in zip(
@@ -248,6 +251,15 @@ def to_pdb(nuclacid: NucleicAcid) -> str:
             ]  # Protein supports only C, N, O, S, this works.
             charge = ""
             # PDB is a columnar format, every space matters here!
+            # print("atom_index",atom_index)
+            # print("record_type",record_type)
+            # print("name",name)
+            # print("alt_loc",alt_loc)
+            # print("residue_index[i]", residue_index[i], type(residue_index[i]))
+            # print("pos", pos, pos.shape)
+            # print("pos[0]", pos[0], type(pos[0]))
+            # print("b_factor", b_factor, type(b_factor))
+
             atom_line = (
                 f"{record_type:<6}{atom_index:>5} {name:<4}{alt_loc:>1}"
                 f"{res_name_3:>3} {chain_id:>1}"
@@ -279,7 +291,13 @@ def from_prediction(
 ) -> NucleicAcid:
     
     def _maybe_remove_leading_dim(arr: np.ndarray) -> np.ndarray:
-        return arr[0] if remove_leading_feature_dimension else arr
+        if remove_leading_feature_dimension:
+            
+            return arr[0]  
+        else:
+            return arr
+        
+
 
     if b_factors is None:
         b_factors = np.zeros_like(result["final_atom_mask"])
