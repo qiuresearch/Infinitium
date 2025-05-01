@@ -58,6 +58,12 @@ class EdgeEmbedder(nn.Module):
         sc_feats = utils.calc_distogram(
              sc_t, min_bin=1e-3, max_bin=20.0, num_bins=self._cfg.num_bins)
         
+        cross_node_feats = cross_node_feats.float()
+        relpos_feats = relpos_feats.float()
+        sc_feats = sc_feats.float()
+        ss = ss.float()
+
+        
         all_edge_feats = torch.concat(
            [cross_node_feats, relpos_feats, sc_feats, ss], dim=-1)
         

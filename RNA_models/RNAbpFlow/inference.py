@@ -6,7 +6,7 @@ from omegaconf import DictConfig
 from tqdm import tqdm
 
 import src.utils as eu
-from src.models.flow_module_inf import FlowModule
+from src.models.flow_module import FlowModule
 from src.data.dataset import RNADataset
 
 import pickle, yaml, shutil
@@ -41,8 +41,9 @@ class Sampler:
         gpu_count = torch.cuda.device_count()
 
         if gpu_count > 0:
-            device_ids = [f"cuda:{i}" for i in range(gpu_count)]
-            map_location = lambda storage, loc: storage.cuda(device_ids[0])  # Load to the first GPU
+            #device_ids = [f"cuda:{i}" for i in range(gpu_count)]
+            device_ids = list(range(gpu_count)) 
+            map_location = lambda storage, loc: storage.cuda(int(device_ids[0]))  # Load to the first GPU
         else:
             map_location = "cpu"  # Fallback to CPU
             

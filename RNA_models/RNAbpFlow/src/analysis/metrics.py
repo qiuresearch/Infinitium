@@ -8,7 +8,7 @@ from jaxtyping import Float
 from loguru import logger
 from torch import Tensor
 
-from src.data import nucleotide_constants
+from src.data import base_constants
 
 def exists(x: object) -> bool:
     return x is not None
@@ -164,7 +164,7 @@ def kabsch(
         logger.warning(f"Kabsch: SVD was numerically unstable for {num_it} iterations.")
 
     # Compute rotation matrices and translation vectors
-    flip_mat = torch.eye(3, device=device).repeat(B, 1, 1)  # [B, 3, 3]
+    flip_mat = torch.eye(3, device=device,dtype=fixed.dtype).repeat(B, 1, 1)  # [B, 3, 3]
     flip_mat[:, -1, -1] = cov.det().sign()  # Set all last diagonal elements to sign of determinant
     rot_mats = U @ flip_mat @ Vt  # [B, 3, 3]
     trans_vecs = fixed_com.squeeze(1) - einsum(rot_mats, mobile_com.squeeze(1), "B i j, B j -> B i")  # [B, 3]
@@ -304,8 +304,8 @@ def calc_rna_c4_c4_metrics(c4_pos, bond_tol=0.1, clash_tol=1.0):
 
     c4_bond_dists = np.linalg.norm(c4_pos - np.roll(c4_pos, 1, axis=0), axis=-1)[1:]
     avg_c4_bond_dist = np.linalg.norm(c4_pos - np.roll(c4_pos, 1, axis=0), axis=-1)[1:].mean()
-    c4_c4_dev = np.mean(np.abs(c4_bond_dists - nucleotide_constants.c4_c4))
-    c4_c4_valid = np.mean(c4_bond_dists < (nucleotide_constants.c4_c4 + bond_tol))
+    c4_c4_dev = np.mean(np.abs(c4_bond_dists - base_constants.c4_c4))
+    c4_c4_valid = np.mean(c4_bond_dists < (base_constants.c4_c4 + bond_tol))
 
     c4_c4_dists2d = np.linalg.norm(c4_pos[:, None, :] - c4_pos[None, :, :], axis=-1)
     inter_dists = c4_c4_dists2d[np.where(np.triu(c4_c4_dists2d, k=0) > 0)]
